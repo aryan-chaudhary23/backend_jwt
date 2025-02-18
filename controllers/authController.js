@@ -15,7 +15,8 @@ export const register = async (req, res) => {
 
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'}); //this will create a token with the user id and the secret key and it will expire in 7 days
         res.cookie('token', token, {
-            success: true
+            success: true,
+            SameSite: 'none'
         }); //this will set the token in the cookie
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
@@ -62,7 +63,8 @@ export const login = async (req, res) => {
         if(!await bcrpt.compare(password, user.password)) return res.json({success:false,message: 'Invalid credentials'});
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'}); //this will create a token with the user id and the secret key and it will expire in 7 days
         res.cookie('token', token, {
-            success: true
+            success: true,
+            SameSite: 'none'
         });
         return res.json({success:true,message: 'Login successful'});
     } catch (error) {
@@ -73,7 +75,8 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
     try {
         res.clearCookie('token',{
-            success: true
+            success: true,
+            SameSite: 'none'
         });
         return res.json({ success: true, message: 'Logged out successfully!' });
     } catch (error) {
