@@ -16,7 +16,8 @@ export const register = async (req, res) => {
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'}); //this will create a token with the user id and the secret key and it will expire in 7 days
         res.cookie('token', token, {
             success: true,
-            sameSite: 'none'
+            sameSite: 'none',
+            secure: false
         }); //this will set the token in the cookie
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
@@ -64,7 +65,8 @@ export const login = async (req, res) => {
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'}); //this will create a token with the user id and the secret key and it will expire in 7 days
         res.cookie('token', token, {
             success: true,
-            sameSite: 'none'
+            sameSite: 'none',
+            secure: false
         });
         return res.json({success:true,message: 'Login successful'});
     } catch (error) {
@@ -76,7 +78,8 @@ export const logout = (req, res) => {
     try {
         res.clearCookie('token',{
             success: true,
-            sameSite: 'none'
+            sameSite: 'none',
+            secure: false
         });
         return res.json({ success: true, message: 'Logged out successfully!' });
     } catch (error) {
